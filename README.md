@@ -1,8 +1,8 @@
 # 📊 Contador do YouTube
 
 <p align="center">
-  <img src="https://shields.io" alt="Status">
-  <img src="https://shields.io" alt="Acesso">
+  <img src="https://img.shields.io/badge/online-brightgreen?style=for-the-badge" alt="Status">
+  <img src="https://img.shields.io/badge/Todos-blue" alt="Acesso">
 </p>
 
 ## 🔎 Sobre o Projeto
@@ -15,8 +15,8 @@ O **Contador do YouTube** é uma ferramenta web simples, rápida e totalmente on
 
 A aplicação está hospedada na nuvem e pronta para uso. **Não é necessário instalar nada no seu computador**:
 
-1. Acesse o link oficial do projeto: `https://github.io` *(substitua pelo seu link)*
-2. Digite o nome do canal desejado no campo de busca.
+1. Acesse o link oficial do projeto: `https://bryan-ferreiraaa.github.io/contador-de-inscritos-v3
+2. Digite o nome do canal desejado no campo de busca, exemplo "PewDiePie" "MrBeast" "T-Series" e etc.
 3. Clique em **Buscar** para carregar os dados atualizados.
 
 ---
@@ -43,9 +43,7 @@ O projeto foi desenvolvido focado na web moderna e na leveza do carregamento:
 
 ## 📌 Próximas Atualizações
 
-- [ ] Implementar sistema de atualização automática dos números a cada poucos segundos.
-- [ ] Adicionar histórico recente das últimas buscas realizadas.
-- [ ] Criar opção para gerar um link direto compartilhável para um canal específico.
+# Ainda sem Novidades...
 
 ---
 
