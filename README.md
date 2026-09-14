@@ -3,7 +3,7 @@
 <p align="center">
   <img src="https://img.shields.io/badge/online-brightgreen?style=for-the-badge" alt="Status">
   STATUS:
-  <img src="https://img.shields.io/badge/Todos-blue" alt="Acesso
+  <img src="https://img.shields.io/badge/Todos-blue" alt="Acesso">
     ACESSO:
 </p>
 
