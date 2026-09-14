@@ -3,8 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contador do YouTube</title>
+    <title>Contador do YouTube com Busca e Odometer</title>
+    
+    <!-- Odometer CSS (O seu código ajustado) -->
     <style>
+        .odometer.odometer-auto-theme,.odometer.odometer-theme-minimal {
+            display: -moz-inline-box;
+            -moz-box-orient: vertical;
+            display: inline-block;
+            vertical-align: middle;
+            position: relative;
+        }
+        .odometer.odometer-auto-theme .odometer-digit,.odometer.odometer-theme-minimal .odometer-digit {
+            display: -moz-inline-box;
+            -moz-box-orient: vertical;
+            display: inline-block;
+            vertical-align: middle;
+            position: relative;
+        }
+        .odometer.odometer-auto-theme .odometer-digit .odometer-digit-spacer,.odometer.odometer-theme-minimal .odometer-digit .odometer-digit-spacer {
+            display: -moz-inline-box;
+            -moz-box-orient: vertical;
+            display: inline-block;
+            vertical-align: middle;
+            visibility: hidden;
+        }
+        .odometer.odometer-auto-theme .odometer-digit .odometer-digit-inner,.odometer.odometer-theme-minimal .odometer-digit .odometer-digit-inner {
+            text-align: left;
+            display: block;
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            overflow: hidden;
+        }
+        .odometer.odometer-auto-theme .odometer-digit .odometer-ribbon,.odometer.odometer-theme-minimal .odometer-digit .odometer-ribbon {
+            display: block;
+        }
+        .odometer.odometer-auto-theme .odometer-digit .odometer-ribbon-inner,.odometer.odometer-theme-minimal .odometer-digit .odometer-ribbon-inner {
+            display: block;
+            -webkit-backface-visibility: hidden;
+        }
+        .odometer.odometer-auto-theme .odometer-digit .odometer-value,.odometer.odometer-theme-minimal .odometer-digit .odometer-value {
+            display: block;
+            -webkit-transform: translateZ(0);
+        }
+        .odometer.odometer-auto-theme .odometer-digit .odometer-value.odometer-last-value,.odometer.odometer-theme-minimal .odometer-digit .odometer-value.odometer-last-value {
+            position: absolute;
+        }
+        .odometer.odometer-auto-theme.odometer-animating-up .odometer-ribbon-inner,.odometer.odometer-theme-minimal.odometer-animating-up .odometer-ribbon-inner {
+            transition: transform 1s;
+        }
+        .odometer.odometer-auto-theme.odometer-animating-up.odometer-animating .odometer-ribbon-inner,.odometer.odometer-theme-minimal.odometer-animating-up.odometer-animating .odometer-ribbon-inner {
+            transform: translateY(-100%);
+        }
+        .odometer.odometer-auto-theme.odometer-animating-down .odometer-ribbon-inner,.odometer.odometer-theme-minimal.odometer-animating-down .odometer-ribbon-inner {
+            transform: translateY(-100%);
+        }
+        .odometer.odometer-auto-theme.odometer-animating-down.odometer-animating .odometer-ribbon-inner,.odometer.odometer-theme-minimal.odometer-animating-down.odometer-animating .odometer-ribbon-inner {
+            transition: transform 1s;
+            transform: translateY(0);
+        }
+
+        /* Estilos Gerais do Layout */
         * {
             margin: 0;
             padding: 0;
@@ -13,12 +72,12 @@
         }
 
         body {
-            background-color: #121212;
+            background-color: #121212 !important;
             color: #ffffff;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
         }
 
         .container {
@@ -27,31 +86,69 @@
             padding: 30px;
             border-radius: 15px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            width: 400px;
+            width: 450px;
         }
 
         h1 {
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            color: #ffffff !important;
+        }
+
+        .search-box {
+            display: flex;
+            gap: 10px;
             margin-bottom: 25px;
-            font-size: 1.6rem;
-            color: #ffffff;
+        }
+
+        .search-box input {
+            flex: 1;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #444;
+            background-color: #2a2a2a;
+            color: #fff;
+            outline: none;
+        }
+
+        .search-box button {
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: none;
+            background-color: #ff0000;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .search-box button:hover {
+            background-color: #cc0000;
+        }
+
+        .channel-info {
+            font-size: 1.1rem;
+            color: #ccc;
+            margin-bottom: 15px;
+            font-weight: bold;
         }
 
         .contador-box {
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 15px;
         }
 
         .card {
-            background-color: #2a2a2a;
+            background-color: #2a2a2a !important;
             padding: 15px;
             border-radius: 10px;
             border-left: 5px solid #ff0000;
         }
 
         .titulo {
-            font-size: 0.9rem;
-            color: #aaaaaa;
+            font-size: 0.85rem;
+            color: #aaaaaa !important;
             text-transform: uppercase;
             letter-spacing: 1px;
             margin-bottom: 5px;
@@ -60,40 +157,102 @@
         .numero {
             font-size: 2.2rem;
             font-weight: bold;
-            color: #ff0000;
+            color: #ff0000 !important;
         }
     </style>
+
+    <!-- Odometer JS CDN necessário para fazer a mágica funcionar -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/odometer.js/0.4.7/themes/odometer-theme-minimal.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/odometer.js/0.4.7/odometer.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 </head>
 <body>
 
     <div class="container">
-        <h1>Estatísticas do Canal</h1>
+        <h1>Contador do YouTube</h1>
+        
+        <!-- Caixa de Busca -->
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Digite o nome do canal...">
+            <button onclick="buscarCanal()">Buscar</button>
+        </div>
+
+        <div id="channelName" class="channel-info"></div>
         
         <div class="contador-box">
             <div class="card">
                 <p class="titulo">Inscritos</p>
-                <div class="numero" id="subscriberCount">0</div>
+                <div class="numero odometer" id="subscriberCount">0</div>
             </div>
 
             <div class="card">
                 <p class="titulo">Visualizações</p>
-                <div class="numero" id="viewCount">0</div>
+                <div class="numero odometer" id="viewCount">0</div>
             </div>
 
             <div class="card">
                 <p class="titulo">Total de Vídeos</p>
-                <div class="numero" id="videoCount">0</div>
+                <div class="numero odometer" id="videoCount">0</div>
             </div>
         </div>
     </div>
 
     <script>
-       
-        const APIKey = AIzaSyBzxtDTMfqS2PhbAtsUE9GilKdMOHQyh3A
+        const APIKey = 'AIzaSyBzxtDTMfqS2PhbAtsUE9GilKdMOHQyh3A'; // Insira sua chave da API do YouTube aqui
+        let currentChannelId = 'UCeStZh4MUgcQz-msOm1A0tA'; // Canal padrão inicial (ex: PewDiePie)
+        let intervalId = null;
 
-        const Userid = 'UCeStZh4MUgcQz-msOm1A0tA';
-        const subscriberCount = document.getElementById('subscriberCount');
-        const viewCount = document.getElementById('viewCount');
-        const videoCount = document.getElementById('videoCount');
+        async function buscarCanal() {
+            const query = document.getElementById('searchInput').value.trim();
+            if (!query) return;
 
-        function getdat
+            // Rota de busca solicitada por você
+            const searchUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(query)}&type=channel&maxResults=1&key=${APIKey}`;
+
+            try {
+                const response = await fetch(searchUrl);
+                const data = await response.json();
+
+                if (data.items && data.items.length > 0) {
+                    currentChannelId = data.items[0].snippet.channelId;
+                    getChannelData(); // Atualiza imediatamente com o ID novo
+                } else {
+                    alert("Canal não encontrado!");
+                }
+            } catch (error) {
+                console.error("Erro na busca:", error);
+            }
+        }
+
+        async function getChannelData() {
+            try {
+                const statsUrl = `https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics&id=${currentChannelId}&key=${APIKey}`;
+                const response = await fetch(statsUrl);
+                const data = await response.json();
+
+                if (data.items && data.items.length > 0) {
+                    const channel = data.items[0];
+                    const stats = channel.statistics;
+
+                    // Mostra o nome do canal buscado
+                    document.getElementById('channelName').textContent = channel.snippet.title;
+
+                    // Atualiza os valores do Odometer com animação automática
+                    document.getElementById('subscriberCount').textContent = stats.subscriberCount || 0;
+                    document.getElementById('viewCount').textContent = stats.viewCount || 0;
+                    document.getElementById('videoCount').textContent = stats.videoCount || 0;
+                }
+            } catch (error) {
+                console.error("Erro ao buscar estatísticas:", error);
+            }
+        }
+
+        // Inicia carregando o canal padrão
+        getChannelData();
+
+        // Configura atualização automática a cada 10 segundos
+        if (intervalId) clearInterval(intervalId);
+        intervalId = setInterval(getChannelData, 10000);
+    </script>
+</body>
+</html>
