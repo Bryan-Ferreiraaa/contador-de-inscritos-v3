@@ -2,7 +2,9 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/online-brightgreen?style=for-the-badge" alt="Status">
-  <img src="https://img.shields.io/badge/Todos-blue" alt="Acesso">
+  STATUS:
+  <img src="https://img.shields.io/badge/Todos-blue" alt="Acesso
+    ACESSO:
 </p>
 
 ## 🔎 Sobre o Projeto
